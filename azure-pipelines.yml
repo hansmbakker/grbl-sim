@@ -12,12 +12,18 @@ steps:
     cd grbl/grbl
     git clone https://github.com/grbl/grbl-sim.git
 - script: |
+    make new --environment-overrides
+  displayName: 'make for Linux'
+  env: 
+    {
+      "SIM_EXE_NAME": "$(Build.ArtifactStagingDirectory)/linux/grbl_sim",
+      "VALIDATOR_NAME": "$(Build.ArtifactStagingDirectory)/linux/gvalidate"
+    }
+  workingDirectory: 'grbl/grbl/grbl-sim'
+- script: |
     sudo apt-get update
     sudo apt-get install mingw-w64
-  displayName: 'Install cross compiler'
-#- script: |
-#    make
-#  displayName: 'make for Linux'
+  displayName: 'Install cross compiler for Windows'
 - script: |
     make new --environment-overrides
   displayName: 'make for Windows'
@@ -26,8 +32,8 @@ steps:
       "PLATFORM":"WINDOWS",
       "CC":"/etc/alternatives/i686-w64-mingw32-gcc",
       "WINDOWS_LIBRARIES":"-I /usr/i686-w64-mingw32/include",
-      "SIM_EXE_NAME": "$(Build.ArtifactStagingDirectory)/grbl_sim.exe",
-      "VALIDATOR_NAME": "$(Build.ArtifactStagingDirectory)/gvalidate.exe"
+      "SIM_EXE_NAME": "$(Build.ArtifactStagingDirectory)/windows/grbl_sim.exe",
+      "VALIDATOR_NAME": "$(Build.ArtifactStagingDirectory)/windows/gvalidate.exe"
     }
   workingDirectory: 'grbl/grbl/grbl-sim'
 - task: PublishBuildArtifacts@1
