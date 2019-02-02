@@ -3,13 +3,14 @@
 # Add steps that publish test results, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
 
-trigger:
-- master
-
 pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
+- script: |
+    git clone https://github.com/gnea/grbl.git
+    cd grbl/grbl
+    git clone https://github.com/grbl/grbl-sim.git
 - script: |
     sudo apt-get update
     sudo apt-get install mingw-w64
@@ -20,4 +21,14 @@ steps:
 - script: |
     make new --environment-overrides
   displayName: 'make for Windows'
-  env: { "PLATFORM":"WINDOWS","CC":"/etc/alternatives/i686-w64-mingw32-gcc", "WINDOWS_LIBRARIES":"-I /usr/i686-w64-mingw32/include" }
+  env: 
+    {
+      "PLATFORM":"WINDOWS",
+      "CC":"/etc/alternatives/i686-w64-mingw32-gcc",
+      "WINDOWS_LIBRARIES":"-I /usr/i686-w64-mingw32/include",
+      "SIM_EXE_NAME": "$(Build.ArtifactStagingDirectory)/grbl_sim.exe",
+      "VALIDATOR_NAME": "$(Build.ArtifactStagingDirectory)/gvalidate.exe"
+    }
+  workingDirectory: 'grbl/grbl/grbl-sim'
+
+  
