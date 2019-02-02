@@ -1,0 +1,25 @@
+# C/C++ with GCC
+# Build your C/C++ project with GCC using make.
+# Add steps that publish test results, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
+
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- script: |
+    sudo apt-get install mingw-w64
+  displayName: 'Install cross compiler'
+- script: |
+    make
+  displayName: 'make for Linux'
+- script: |
+    export PLATFORM = WINDOWS
+    export CC = /etc/alternatives/i686-w64-mingw32-gcc
+    export WINDOWS_LIBRARIES = -I /usr/i686-w64-mingw32/include
+- script: |
+    make --environment-overrides
+  displayName: 'make for Windows'
