@@ -14,6 +14,7 @@ steps:
 
     mkdir -p "$(Build.ArtifactStagingDirectory)/linux"
     mkdir -p "$(Build.ArtifactStagingDirectory)/windows"
+  displayName: 'Get sources and create output directories'
 - script: |
     make new --environment-overrides
   displayName: 'make for Linux'
