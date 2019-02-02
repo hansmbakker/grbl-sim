@@ -30,5 +30,8 @@ steps:
       "VALIDATOR_NAME": "$(Build.ArtifactStagingDirectory)/gvalidate.exe"
     }
   workingDirectory: 'grbl/grbl/grbl-sim'
-
-  
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish binary files'
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: drop
