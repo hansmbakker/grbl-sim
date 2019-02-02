@@ -11,6 +11,9 @@ steps:
     git clone https://github.com/gnea/grbl.git
     cd grbl/grbl
     git clone https://github.com/grbl/grbl-sim.git
+
+    mkdir -p "$(Build.ArtifactStagingDirectory)/linux"
+    mkdir -p "$(Build.ArtifactStagingDirectory)/windows"
 - script: |
     make new --environment-overrides
   displayName: 'make for Linux'
