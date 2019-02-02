@@ -22,5 +22,5 @@ steps:
     export CC = /etc/alternatives/i686-w64-mingw32-gcc
     export WINDOWS_LIBRARIES = -I /usr/i686-w64-mingw32/include
 - script: |
-    make --environment-overrides
+    make new --environment-overrides
   displayName: 'make for Windows'
